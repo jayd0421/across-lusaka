@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.astro/
+.venv/
+.env
+.env.*
+!.env.example
+data/raw/*
+!data/raw/.gitkeep
+playwright-report/
+test-results/

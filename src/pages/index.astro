@@ -1,0 +1,95 @@
+---
+import '../styles/global.css';
+import fixture from '../../data/fixtures/journey.json';
+import audit from '../../data/processed/audit.json';
+import { compare } from '../lib/model';
+const result = compare(fixture, fixture.defaults);
+const scenes = [
+  {id:'distance', no:'01', label:'THE QUESTION', title:'On a map, the journey looks simple.', text:'A starting point. A destination. But a line between the two tells us very little about the journey in between.', note:'The diagram uses fictional places A and B. A real journey has not yet been selected.'},
+  {id:'connections', no:'02', label:'THE CONNECTIONS', title:'Getting there depends on what connects.', text:'Walking to a stop. Waiting for a vehicle. Travelling, changing, then walking again. Every connection adds another part to the journey.', note:'Illustrative baseline: two bus legs and one transfer. This is not evidence of a missing Lusaka service.'},
+  {id:'cost', no:'03', label:'THE WHOLE JOURNEY', title:'The fare is only part of the cost.', text:'Time at a stop matters as much as time on a bus. A fair comparison follows the same origin and destination, from the first walk to the last.', note:'No fares are shown. Survey fare fields exist, but their units, collection context and current relevance need checking.'},
+  {id:'network', no:'04', label:'A WIDER VIEW', title:'One journey opens a bigger question.', text:'The survey is a starting point for investigating connections across Lusaka. It is a record of surveyed services, not a complete picture of transport today.', note:'68 GTFS route records · 793 stops · 2023 survey. Source geometry is withheld from this prototype pending reuse clarification.'},
+  {id:'alternative', no:'05', label:'A POSSIBILITY', title:'What could a more direct connection change?', text:'In this fictional example, one vehicle replaces two. That could remove a transfer. Whether a real service would help depends on its alignment, reliability and the people who need it.', note:'Proposed concept only. The dashed line is schematic; it has not been checked against roads, operating conditions or demand.'}
+];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Across Lusaka — a Lumba Digital work in progress exploring public transport connections, evidence and transparent scenarios." />
+    <meta name="theme-color" content="#193e35" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Across Lusaka — A story of connections · Lumba Digital</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#story">Skip to the story</a>
+    <header class="site-header">
+      <a href="#" class="brand" aria-label="Lumba Digital home"><span class="brand-mark" aria-hidden="true">L<span><span class="external-arrow" aria-hidden="true"></span></span></span><span>LUMBA<span class="brand-sub">DIGITAL</span></span></a>
+      <span class="header-project">FIELD NOTES <span>/</span> LUSAKA, ZAMBIA</span>
+      <a class="header-link" href="#behind">Behind the analysis <span aria-hidden="true"><span class="external-arrow" aria-hidden="true"></span></span></a>
+    </header>
+    <main>
+      <section class="hero" aria-labelledby="title">
+        <div class="hero-copy"><p class="eyebrow"><span class="dot"></span> A STORY OF CONNECTIONS</p>
+          <h1 id="title">Across<br /><em>Lusaka.</em></h1>
+          <p class="hero-deck">Exploring everyday journeys—and what better public transport connections could change.</p>
+          <a class="story-link" href="#story">Follow the journey <span aria-hidden="true">↓</span></a>
+          <div class="hero-meta"><span>01 / AN OPEN INVESTIGATION</span><span>BY LUMBA DIGITAL</span></div>
+        </div>
+        <div class="hero-art" role="img" aria-label="Abstract illustration of two points connected through a transfer, and a dashed alternative. This is a schematic, not a geographic map.">
+          <div class="art-grid"></div><span class="map-top">A CITY IS MORE THAN THE DISTANCE BETWEEN TWO POINTS.</span>
+          <svg viewBox="0 0 640 650" aria-hidden="true">
+            <g class="art-streets"><path d="M-20 170L660 420M-20 380L650 120M90 0L510 650M350-20L170 670M0 540L650 500M510 0L410 650"/><path d="M0 240L640 570M40 0L640 280M0 450L600 60M180 0L0 650M640 400L200 650"/></g>
+            <path class="art-route-shadow" d="M130 460L230 360L370 360L370 215L500 170"/><path class="art-route" d="M130 460L230 360L370 360L370 215L500 170"/>
+            <path class="art-proposal" d="M130 460Q170 205 500 170"/>
+            <circle class="art-stop" cx="130" cy="460" r="12"/><circle class="art-stop" cx="370" cy="360" r="10"/><circle class="art-stop" cx="500" cy="170" r="12"/>
+            <text x="95" y="505">A STARTING POINT</text><text x="392" y="366">A CONNECTION</text><text x="350" y="135">A DESTINATION</text>
+            <circle cx="130" cy="460" r="27" class="art-ring"/><circle cx="500" cy="170" r="27" class="art-ring"/>
+          </svg>
+          <span class="art-coordinate">CONNECTIONS, NOT JUST KILOMETRES.</span><span class="art-caption">CONCEPT DIAGRAM / NOT A REAL ROUTE</span>
+        </div>
+      </section>
+      <aside class="evidence-banner"><span class="status-label">WORK IN PROGRESS</span><p>Real survey. Open questions. <strong>Demonstration comparison.</strong> All journey times and proposed alignments below are synthetic.</p><a href="#evidence">Read the evidence note <span class="external-arrow" aria-hidden="true"></span></a></aside>
+      <section id="story" class="story-intro"><p class="eyebrow">THE JOURNEY BETWEEN</p><h2>Two points.<br /><em>Many moving parts.</em></h2><p>Before asking whether a new connection is better, we need to understand what a complete journey involves.</p></section>
+      <div class="scrolly">
+        <div class="map-sticky">
+          <div class="map-heading"><span class="eyebrow">A JOURNEY, UNPACKED</span><span id="scene-counter">01 / 05</span></div>
+          <div class="map-shell">
+            <div id="story-map" aria-label="Interactive schematic of a fictional journey" role="region"></div>
+            <div id="map-fallback"><svg viewBox="0 0 600 440" role="img" aria-label="Schematic fallback: A to transfer to B, with a dashed direct alternative"><path d="M90 340L210 240L350 240L350 130L500 80" stroke="#193e35" stroke-width="7" fill="none"/><path d="M90 340Q160 95 500 80" stroke="#c55330" stroke-width="5" stroke-dasharray="12 10" fill="none"/><g fill="#f8f4ec" stroke="#193e35" stroke-width="4"><circle cx="90" cy="340" r="12"/><circle cx="350" cy="240" r="10"/><circle cx="500" cy="80" r="12"/></g><g fill="#193e35" font-size="18"><text x="70" y="380">A</text><text x="370" y="245">Transfer</text><text x="490" y="55">B</text></g></svg><p>Static diagram. The story and comparison work without an interactive map.</p></div>
+            <span class="map-badge">DEMONSTRATION · NOT TO SCALE</span>
+          </div>
+          <div class="map-legend"><span><i class="line baseline"></i> Illustrative baseline</span><span><i class="line proposed"></i> Proposed concept</span></div>
+          <p class="map-note" id="map-note">Fictional origin A and destination B. No geographic basemap.</p>
+          <button class="text-button" id="reset-map" type="button" hidden>Reset diagram view ↺</button>
+        </div>
+        <div class="story-scenes">{scenes.map(scene => <section class="scene" id={scene.id} data-scene={scene.id} aria-labelledby={`heading-${scene.id}`}><p class="scene-number">{scene.no} <span>/ {scene.label}</span></p><h2 id={`heading-${scene.id}`}>{scene.title}</h2><p>{scene.text}</p><aside class="scene-note">{scene.note}</aside></section>)}</div>
+      </div>
+      <section class="lab section-wrap" id="compare">
+        <div class="section-top"><p class="eyebrow">06 / TEST THE ASSUMPTIONS</p><span class="pill">DEMONSTRATION DATA</span></div>
+        <div class="lab-heading"><h2>A shorter route is only useful<br /><em>if the service works.</em></h2><p>Explore the trade-offs in a fictional A → B journey. These results explain the model; they do not predict travel times in Lusaka.</p></div>
+        <div class="lab-grid"><form id="scenario-form" class="controls">
+          <h3>What changes the journey?</h3>
+          <label for="headway">Proposed departure interval <output id="headway-value" for="headway">15 min</output></label><input id="headway" name="headway" type="range" min="5" max="60" step="5" value="15" /><p class="control-note">Every 5 minutes <span>Every 60 minutes</span></p>
+          <label for="baseline-traffic">Baseline onboard time <output id="baseline-traffic-value" for="baseline-traffic">1.0×</output></label><input id="baseline-traffic" name="baselineTraffic" type="range" min="1" max="2.5" step="0.1" value="1" />
+          <label for="proposal-traffic">Proposal onboard time <output id="proposal-traffic-value" for="proposal-traffic">1.0×</output></label><input id="proposal-traffic" name="proposalTraffic" type="range" min="1" max="2.5" step="0.1" value="1" /><p class="control-note">1× fixture time; 2.5× severe delay assumption.</p>
+          <label for="spares">Spare vehicles <select id="spares" name="spares"><option value="0">0</option><option value="1" selected>1</option><option value="2">2</option><option value="3">3</option></select></label>
+          <button class="reset-button" type="reset">Reset assumptions <span aria-hidden="true">↺</span></button>
+        </form><div class="results">
+          <div class="result-head"><p>SAME FICTIONAL ORIGIN & DESTINATION</p><p id="comparison-summary" role="status" aria-live="polite" aria-atomic="true"><strong>{result.difference.toFixed(1)} minutes less</strong> with the proposed concept.</p></div>
+          <div class="time-row"><span><i class="line baseline"></i> Baseline <small>2 bus legs · 1 transfer</small></span><strong><span id="baseline-total">83.0</span><small> min</small></strong></div><div id="baseline-bar" class="time-bar" aria-hidden="true"></div>
+          <div class="time-row"><span><i class="line proposed"></i> Proposed <small>1 bus leg · no transfer</small></span><strong><span id="proposal-total">57.5</span><small> min</small></strong></div><div id="proposal-bar" class="time-bar" aria-hidden="true"></div>
+          <div class="breakdown-legend"><span><i class="walk"></i>Walking</span><span><i class="wait"></i>Waiting</span><span><i class="onboard"></i>Onboard</span></div>
+          <table><caption>Complete journey breakdown · minutes</caption><thead><tr><th scope="col">Journey component</th><th scope="col">Baseline</th><th scope="col">Proposed</th></tr></thead><tbody><tr><th scope="row">Access + egress walking</th><td>15.0</td><td>18.0</td></tr><tr><th scope="row">Initial waiting</th><td>12.0</td><td id="initial-wait">7.5</td></tr><tr><th scope="row">Transfer walking</th><td>4.0</td><td>0.0</td></tr><tr><th scope="row">Transfer waiting</th><td>10.0</td><td>0.0</td></tr><tr><th scope="row">Onboard, including stops</th><td id="baseline-onboard">42.0</td><td id="proposal-onboard">32.0</td></tr><tr class="total-row"><th scope="row">Door-to-door total</th><td id="baseline-table-total">83.0</td><td id="proposal-table-total">57.5</td></tr></tbody></table>
+        </div></div>
+        <details class="assumptions" open><summary>Read the assumptions before interpreting the result</summary><p>Proposal waiting = half the departure interval, assuming random arrivals, regular departures and enough boarding capacity. This does not describe fill-and-go operation. Baseline waits are fixed synthetic inputs. Traffic scales each option’s onboard minutes independently; walks and baseline waits stay fixed. Both options include access and egress. Fares are not modelled.</p><p><a href="/data/journey-demo.json" download>Download the labelled fixture <span class="external-arrow" aria-hidden="true"></span></a> · <a href="#behind">Behind the analysis</a></p></details>
+        <noscript><p class="scene-note">JavaScript is off. The table shows the default illustrative scenario; controls require JavaScript.</p></noscript>
+      </section>
+      <section class="fleet section-wrap" id="operations"><div><p class="eyebrow">07 / THE OTHER SIDE OF FREQUENCY</p><h2>More departures.<br /><em>More buses.</em></h2><p>A shorter wait comes with an operational requirement. This is a fleet calculation, not a business case.</p></div><div class="fleet-results"><div class="fleet-main"><span id="fleet-count">6</span><div>operating vehicles<small>+ <span id="spare-count">1</span> spare, shown separately</small></div></div><p class="formula">⌈ <span id="round-trip">80.0</span> min round trip ÷ <span id="fleet-headway">15</span> min interval ⌉</p><p class="fleet-note">Round trip = twice outbound onboard time + 16 minutes recovery. Stops are already included. Equal return time is an assumption. Fleet does not establish demand, capacity adequacy or profitability.</p><a href="#compare">Adjust the service above ↑</a></div></section>
+      <section class="evidence section-wrap" id="evidence"><p class="eyebrow">THE EVIDENCE, SO FAR</p><h2>A surveyed baseline.<br /><em>An unfinished picture.</em></h2><div class="evidence-stats"><div><strong>68</strong><span>GTFS route records</span></div><div><strong>793</strong><span>stops in the feed</span></div><div><strong>2023</strong><span>survey collection year</span></div></div><div class="evidence-grid"><article><span class="tag observed">OBSERVED / SOURCE RECORDS</span><h3>What the files contain</h3><p>408 trip templates, 408 frequency records and 9,219 stop-time records. The survey README describes July 2023 collection; departure observation timestamps span July–September 2023.</p><p>Collected by Smart Solutech and Transport for Cairo, under a WRI-led consortium, for Low-Carbon Transport Futures in Zambia, sponsored by Climate Compatible Growth and funded by FCDO.</p></article><article><span class="tag modelled">MODELLED / NOT VERIFIED TIMINGS</span><h3>What they cannot tell us yet</h3><p>All stop-time records use <code>timepoint=0</code>, indicating approximate times. The dataset index describes GTFS travel times and headways as estimates based on cleaned survey data; the exact estimation procedure needs confirmation. The feed service period is 1 September 2023–30 December 2024; it does not establish current availability.</p><p>Absence from this survey is not evidence that a service does not exist. No explicit reuse licence was located, so source geometries are not distributed here.</p></article></div><p class="source-line">Audit: {audit.audited_at} · Source revision <code>{audit.source_commit.slice(0, 8)}</code> · <a href={audit.source_url}>DigitalTransport4Africa / Lusaka <span class="external-arrow" aria-hidden="true"></span></a> · <a href="/data/audit.json" download>Download audit findings <span class="external-arrow" aria-hidden="true"></span></a></p></section>
+      <section class="behind section-wrap" id="behind"><div><p class="eyebrow">BEHIND THE ANALYSIS</p><h2>Make the assumptions<br /><em>part of the story.</em></h2><p>Lumba Digital’s contribution is the data audit, the comparison method and this interactive explanation. Original survey collection belongs to the credited producers.</p></div><div class="method-list"><article><span>01</span><div><h3>Inspect before interpreting</h3><p>Inventory GTFS and GIS files; check references, coordinate ranges, time ordering, missing values and reuse conditions. Keep raw files unchanged.</p></div></article><article><span>02</span><div><h3>Compare like with like</h3><p>Use identical door-to-door boundaries. Keep walking, waiting, onboard travel and transfers explicit. Mark synthetic inputs separately.</p></div></article><article><span>03</span><div><h3>Test what could change the conclusion</h3><p>Vary service interval and delays. Allow the proposal to lose. Test arithmetic separately from claims about the real network.</p></div></article></div></section>
+      <section class="collaborate section-wrap" id="collaborate"><p class="eyebrow">08 / THE NEXT JOURNEY IS A SHARED ONE</p><h2>What would we need<br /><em>to test this?</em></h2><p>First, confirm reuse terms and how the survey’s timings were built. Then choose one journey with local partners, check services on the ground and measure the parts that matter.</p><div class="collab-grid"><article><h3>Researchers & data producers</h3><p>Help clarify licensing, collection methods, coverage and timing provenance.</p></article><article><h3>Operators & local partners</h3><p>Validate current connections, departure practices, road suitability and operating constraints.</p></article><article><h3>Potential research funders</h3><p>Support a scoped field study to measure journey experience and test assumptions.</p></article></div><div class="contact-placeholder"><span>LET’S INVESTIGATE TOGETHER</span><p>Project contact details will be added here.</p><a href="https://lumbadigital.com/">Visit Lumba Digital <span class="external-arrow" aria-hidden="true"></span></a></div></section>
+    </main>
+    <footer><a class="footer-brand" href="#">LUMBA DIGITAL <span>/ ACROSS LUSAKA</span></a><p>An independent exploration. No commercial service is being offered.</p><a href="#title">Back to the beginning ↑</a></footer>
+    <script>import '../lib/story';</script>
+  </body>
+</html>

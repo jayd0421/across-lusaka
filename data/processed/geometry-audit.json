@@ -1,0 +1,62 @@
+{
+  "Frequency Instances.geojson": {
+    "features": 216,
+    "crs": "EPSG:4326",
+    "invalid": 0,
+    "empty": 0,
+    "bounds_lon_lat": [
+      28.2755132,
+      -15.4736388,
+      28.3859514,
+      -15.3671802
+    ]
+  },
+  "Identified Routes.geojson": {
+    "features": 67,
+    "crs": "EPSG:4326",
+    "invalid": 0,
+    "empty": 0,
+    "bounds_lon_lat": [
+      28.2443841,
+      -15.47294,
+      28.3860888,
+      -15.348410888731621
+    ]
+  },
+  "Processed Trips.geojson": {
+    "features": 136,
+    "crs": "EPSG:4326",
+    "invalid": 0,
+    "empty": 0,
+    "bounds_lon_lat": [
+      28.131592,
+      -15.569777,
+      28.434583,
+      -15.284029
+    ]
+  },
+  "Terminals.geojson": {
+    "features": 50,
+    "crs": "EPSG:4326",
+    "invalid": 0,
+    "empty": 0,
+    "bounds_lon_lat": [
+      28.131392,
+      -15.569947,
+      28.42363933871677,
+      -15.28397169709235
+    ]
+  },
+  "frequency Instance Observations.geojson": {
+    "features": 829,
+    "crs": "EPSG:4326",
+    "invalid": 0,
+    "empty": 0,
+    "bounds_lon_lat": [
+      28.2755132,
+      -15.4736388,
+      28.3859514,
+      -15.3671802
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "project_id": 55898261,
+  "commit": "e0c2a436f1bc2b85031670161a1b53eceeb951a1",
+  "files": [
+    {
+      "local_name": "README.md",
+      "remote_path": "README.md",
+      "sha256": "8d28972ebda6e2293f95582408162a2aea540205ac7a649a1915eefbc735bc8c"
+    },
+    {
+      "local_name": "gtfs.zip",
+      "remote_path": "Datasets/gtfs.zip",
+      "sha256": "8be5c93d279d340febb00415d34f7dcd613d89890e24c1be86c2a6b0d3115f38"
+    },
+    {
+      "local_name": "metadata.xlsx",
+      "remote_path": "Datasets/Index of Datasets.xlsx",
+      "sha256": "ab70054ea9743a3c592f170b4abecbefd4970847c06ca1f3f77dfcb05e82249a"
+    },
+    {
+      "local_name": "Identified Routes.geojson",
+      "remote_path": "Datasets/Identification/Identified Routes.geojson",
+      "sha256": "7653ccd18b5484c963c4672cec412891e77f26d63faa36d084e0dc39b1049d53"
+    },
+    {
+      "local_name": "Terminals.geojson",
+      "remote_path": "Datasets/Identification/Terminals.geojson",
+      "sha256": "f37f4ed90ca59ffdae4c68030201bd4b44bb2d8eb4285d53d71b02bc84925e23"
+    },
+    {
+      "local_name": "Processed Trips.geojson",
+      "remote_path": "Datasets/Onboard/Processed Trips.geojson",
+      "sha256": "1716cfaf00813745b1f4027f8da4c48bb5a10c7b7af54f0c203962d7cc6f2b27"
+    },
+    {
+      "local_name": "Frequency Instances.geojson",
+      "remote_path": "Datasets/Frequency/Frequency Instances.geojson",
+      "sha256": "7a3e6caf53951c7650b1365d372807b3bdc413e498a670ad78a080b5daa6998d"
+    },
+    {
+      "local_name": "frequency Instance Observations.geojson",
+      "remote_path": "Datasets/Frequency/frequency Instance Observations.geojson",
+      "sha256": "c698b7fd0382ca9db768eeba97a0d393deb9ac53c1102edd62fc20884a273d80"
+    },
+    {
+      "local_name": "tree.json",
+      "api_endpoint": "tree?recursive=true&per_page=100",
+      "sha256": "bd83ff35151070e25d64cfd43534f83a5ba436ae09fc9ba8211300c8b102add9"
+    },
+    {
+      "local_name": "commit.json",
+      "api_endpoint": "commits/",
+      "sha256": "74023986fa72e02fc69ba9a38f9d6e73362f654c67a52b28c68c22eaff5f3e79"
+    }
+  ]
+}

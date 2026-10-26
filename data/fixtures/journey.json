@@ -1,0 +1,12 @@
+{
+  "id": "demo-a-b",
+  "status": "demonstration",
+  "title": "Neighbourhood A → Destination B",
+  "source": "Synthetic fixture created by Lumba Digital to test the interface. No real journey, road alignment, fare or travel time is represented.",
+  "units": { "time": "minutes", "traffic": "multiplier", "fleet": "vehicles" },
+  "baseline": { "accessWalk": 8, "egressWalk": 7, "initialWait": 12, "transferWalk": 4, "transferWait": 10, "onboardLegs": [24, 18] },
+  "proposal": { "accessWalk": 10, "egressWalk": 8, "onboardLegs": [32], "recoveryPerRoundTrip": 16, "stopsIncludedInOnboard": true },
+  "defaults": { "headway": 15, "baselineTraffic": 1, "proposalTraffic": 1, "spares": 1 },
+  "waitingAssumptions": ["Random passenger arrivals", "Regular departures", "Sufficient boarding capacity"],
+  "limitations": ["Baseline waits are synthetic fixed inputs, not headway-derived estimates.", "Proposal waiting uses headway / 2 only for the hypothetical regular service.", "Return onboard time is assumed equal to outbound time for fleet calculation.", "Traffic scales onboard minutes, including stops; walking and fixed baseline waits stay unchanged.", "No inference about demand, profitability or actual services is possible."]
+}
